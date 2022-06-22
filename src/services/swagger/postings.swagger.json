@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "service/service.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ParcelService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/create_parcel": {
+      "post": {
+        "operationId": "ParcelService_CreateParcelSize",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parcel_apiCreateParcelResponce"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/parcel_apiCreateParcelRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ParcelService"
+        ]
+      }
+    },
+    "/get_parcel_audit": {
+      "get": {
+        "operationId": "ParcelService_GetParcelAudit",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parcel_apiGetParcelAuditResponce"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "ParcelService"
+        ]
+      }
+    },
+    "/get_parcels": {
+      "get": {
+        "operationId": "ParcelService_GetParcels",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parcel_apiGetParcelResponce"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "tags": [
+          "ParcelService"
+        ]
+      }
+    },
+    "/save_parcel_size": {
+      "post": {
+        "operationId": "ParcelService_SaveParcelSize",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parcel_apiSaveParcelSizeResponce"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/parcel_apiSaveParcelSizeRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ParcelService"
+        ]
+      }
+    },
+    "/update_parcel": {
+      "post": {
+        "operationId": "ParcelService_UpdateParcel",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/parcel_apiUpdateParcelResponce"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/parcel_apiUpdateParcelRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ParcelService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "parcel_apiAuditParcel": {
+      "type": "object",
+      "properties": {
+        "changer": {
+          "type": "string"
+        },
+        "time": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "parcel": {
+          "$ref": "#/definitions/parcel_apiParcel"
+        }
+      }
+    },
+    "parcel_apiCreateParcelRequest": {
+      "type": "object",
+      "properties": {
+        "parcel": {
+          "$ref": "#/definitions/parcel_apiParcel"
+        }
+      }
+    },
+    "parcel_apiCreateParcelResponce": {
+      "type": "object"
+    },
+    "parcel_apiGetParcelAuditResponce": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/parcel_apiAuditParcel"
+          }
+        }
+      }
+    },
+    "parcel_apiGetParcelResponce": {
+      "type": "object",
+      "properties": {
+        "parcels": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/parcel_apiParcel"
+          }
+        }
+      }
+    },
+    "parcel_apiParcel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "size": {
+          "$ref": "#/definitions/parcel_apiSizes"
+        }
+      }
+    },
+    "parcel_apiSaveParcelSizeRequest": {
+      "type": "object",
+      "properties": {
+        "parcelId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "sizes": {
+          "$ref": "#/definitions/parcel_apiSizes"
+        }
+      }
+    },
+    "parcel_apiSaveParcelSizeResponce": {
+      "type": "object"
+    },
+    "parcel_apiSizes": {
+      "type": "object",
+      "properties": {
+        "height": {
+          "type": "number",
+          "format": "float"
+        },
+        "width": {
+          "type": "number",
+          "format": "float"
+        },
+        "lenght": {
+          "type": "number",
+          "format": "float"
+        }
+      }
+    },
+    "parcel_apiUpdateParcelRequest": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "size": {
+          "$ref": "#/definitions/parcel_apiSizes"
+        }
+      }
+    },
+    "parcel_apiUpdateParcelResponce": {
+      "type": "object"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
