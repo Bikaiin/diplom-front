@@ -10,10 +10,6 @@ export default class UserApi {
 		this.api._setDomain(domain)
 	}
 
-	setToken(token) {
-		//this.api.setToken(token)
-	}
-
 	async checkToken(token) {
 		// return await this.api.AuthService_Check({token})
 		return FakeApi.checkToken(token)
@@ -41,8 +37,12 @@ export default class UserApi {
 	}
 
 	async getUsers() {
-		// return await this.api.AuthService_GetUsers()
-		return await FakeApi.getUsers() // заглушка
+		const {
+			users
+		// } = await this.api.AuthService_GetUsers()
+		} = await FakeApi.getUsers() // заглушка
+
+		return users
 
 		// response: { users: [{ id: 0, login: '', password: '', roleIds: [0] }]}
 	}
@@ -62,8 +62,12 @@ export default class UserApi {
 	}
 
 	async getUserRoles() {
-		//return await this.api.AuthService_GetRoles()
-		return await FakeApi.getRoles()
+		const {
+			roles
+		// } = await this.api.AuthService_GetRoles()
+		} = await FakeApi.getRoles()
+
+		return roles
 
 		// response: { roleId: 0, name: '' }
 	}

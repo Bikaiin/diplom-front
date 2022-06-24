@@ -4,6 +4,7 @@ import { AuthModule } from './modules/auth'
 import { UsersModule } from './modules/users'
 import { RolesModule } from './modules/roles'
 import { PostingsModule } from './modules/postings'
+import { NotificationsModule } from './modules/notifications'
 
 Vue.use(Vuex)
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   	auth: AuthModule,
   	users: UsersModule,
   	roles: RolesModule,
-  	postings: PostingsModule
+  	postings: PostingsModule,
+  	notifications: NotificationsModule
   }
 })

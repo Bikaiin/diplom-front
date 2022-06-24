@@ -1,4 +1,5 @@
 import api from '@/services'
+import router from '@/router'
 
 export const AuthModule = {
 	namespaced: true,
@@ -25,7 +26,7 @@ export const AuthModule = {
 	actions: {
 		async login({ commit }, payload) {
 			const tokens = await api.users.createToken(payload)
-			console.log(tokens)
+
 			if (!tokens.token || !tokens.refreshToken) {
 				return false
 			}
@@ -33,11 +34,32 @@ export const AuthModule = {
 			commit('setTokens', tokens)
 			api.setToken(tokens.token)
 
-			console.log(this.$router)
-			await this.$router.push('/')
+			await router.push('/')
 		},
-		logout({ commit }) {
+		async logout({ commit }) {
 			commit('logout')
+
+			await router.push('/login')
+		},
+		async checkToken({ commit, state }) {
+			if (!state.token) {
+				return
+			}
+
+			await api.users.checkToken(state.token)
+		},
+		async refreshToken({ commit, state }) {
+			if (!state.refreshToken) {
+				return
+			}
+
+			const tokens = await api.users.refreshToken(state.refreshToken)
+
+			if (!tokens.token || !tokens.refreshToken) {
+				return false
+			}
+
+			commit('setTokens', tokens)
 		}
 	}
 }

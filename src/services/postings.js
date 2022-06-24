@@ -1,3 +1,5 @@
+
+
 export default class PostingsApi {
 	constructor(domain, api) {
 		this.api = api
@@ -8,12 +10,8 @@ export default class PostingsApi {
 		this.api._setDomain(domain)
 	}
 
-	setToken(token) {
-		this.api.setToken(token)
-	}
-
 	async getPostings() {
-		return await this.api.ParcelService_GetParcels()
+		// return await this.api.ParcelService_GetParcels()
 		// response: { parcels: [ { id:0, size: { height: 0.0, width: 0.0, lenght: 0.0 } } ] }
 	}
 

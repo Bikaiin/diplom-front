@@ -2,12 +2,13 @@
 import qs from 'qs'
 import axios from 'axios'
 let users = {}
-users._domain = ''
+users._domain = 'http://130.193.53.122:8002'
 users._getDomain = () => {
   return users._domain
 }
 users._setDomain = ($domain) => {
-  users._domain = $domain
+	return
+	users._domain = $domain
 }
 users._request = (method, url, body, queryParameters, form, config) => {
   method = method.toLowerCase()
@@ -42,7 +43,7 @@ users._request = (method, url, body, queryParameters, form, config) => {
  * @param body - body
  */
 users.AuthService_Auth = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/auth'
   let body
@@ -75,7 +76,7 @@ users.AuthService_Auth_TYPE = () => {
 }
 users.AuthService_AuthURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/auth'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -94,7 +95,7 @@ users.AuthService_AuthURL = (parameters = {}) => {
  * @param token - token
  */
 users.AuthService_Check = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/check'
   let body
@@ -123,7 +124,7 @@ users.AuthService_Check_TYPE = () => {
 }
 users.AuthService_CheckURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/check'
   if (parameters['token'] !== undefined) {
     queryParameters['token'] = parameters['token']
@@ -145,7 +146,7 @@ users.AuthService_CheckURL = (parameters = {}) => {
  * @param body - body
  */
 users.AuthService_Create = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/create'
   let body
@@ -177,7 +178,7 @@ users.AuthService_Create_TYPE = () => {
 }
 users.AuthService_CreateURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/create'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -195,7 +196,7 @@ users.AuthService_CreateURL = (parameters = {}) => {
  * raw_url: AuthService_GetRoles_RAW_URL
  */
 users.AuthService_GetRoles = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/get_roles'
   let body
@@ -221,7 +222,7 @@ users.AuthService_GetRoles_TYPE = () => {
 }
 users.AuthService_GetRolesURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/get_roles'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -239,7 +240,7 @@ users.AuthService_GetRolesURL = (parameters = {}) => {
  * raw_url: AuthService_GetUsers_RAW_URL
  */
 users.AuthService_GetUsers = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/get_users'
   let body
@@ -265,7 +266,7 @@ users.AuthService_GetUsers_TYPE = () => {
 }
 users.AuthService_GetUsersURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/get_users'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -284,7 +285,7 @@ users.AuthService_GetUsersURL = (parameters = {}) => {
  * @param body - body
  */
 users.AuthService_Refresh = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/refresh'
   let body
@@ -316,7 +317,7 @@ users.AuthService_Refresh_TYPE = () => {
 }
 users.AuthService_RefreshURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/refresh'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -335,7 +336,7 @@ users.AuthService_RefreshURL = (parameters = {}) => {
  * @param body - body
  */
 users.AuthService_UpdateUser = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let config = parameters.$config || {}
   let path = '/v1/update_user'
   let body
@@ -367,7 +368,7 @@ users.AuthService_UpdateUser_TYPE = () => {
 }
 users.AuthService_UpdateUserURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : users._getDomain()
+  const domain = users._getDomain()
   let path = '/v1/update_user'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {

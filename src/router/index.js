@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+import store from '@/store'
+
 import Login from '../views/Login.vue'
 import Users from '../views/Users.vue'
 import Postings from '../views/Postings.vue'
@@ -43,6 +46,11 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+	if (to.name !== 'login' && !store.getters["auth/isAuthorized"]) next({ name: 'login' })
+	else next()
 })
 
 export default router

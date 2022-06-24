@@ -2,12 +2,13 @@
 import qs from 'qs'
 import axios from 'axios'
 let postings = {}
-postings._domain = ''
+postings._domain = 'http://130.193.53.122:8012'
 postings._getDomain = () => {
   return postings._domain
 }
 postings._setDomain = ($domain) => {
-  postings._domain = $domain
+	return
+	postings._domain = $domain
 }
 postings._request = (method, url, body, queryParameters, form, config) => {
   method = method.toLowerCase()
@@ -31,10 +32,10 @@ postings._request = (method, url, body, queryParameters, form, config) => {
   }
 }
 /************************************************************
- * 
+ *
  ************************************************************/
 /**
- * 
+ *
  * request: ParcelService_CreateParcelSize
  * url: ParcelService_CreateParcelSizeURL
  * method: ParcelService_CreateParcelSize_TYPE
@@ -42,7 +43,7 @@ postings._request = (method, url, body, queryParameters, form, config) => {
  * @param body - body
  */
 postings.ParcelService_CreateParcelSize = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let config = parameters.$config || {}
   let path = '/create_parcel'
   let body
@@ -74,7 +75,7 @@ postings.ParcelService_CreateParcelSize_TYPE = () => {
 }
 postings.ParcelService_CreateParcelSizeURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let path = '/create_parcel'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -85,7 +86,7 @@ postings.ParcelService_CreateParcelSizeURL = (parameters = {}) => {
   return domain + path + (keys.length > 0 ? '?' + (keys.map(key => key + '=' + encodeURIComponent(queryParameters[key])).join('&')) : '')
 }
 /**
- * 
+ *
  * request: ParcelService_GetParcelAudit
  * url: ParcelService_GetParcelAuditURL
  * method: ParcelService_GetParcelAudit_TYPE
@@ -93,7 +94,7 @@ postings.ParcelService_CreateParcelSizeURL = (parameters = {}) => {
  * @param id - id
  */
 postings.ParcelService_GetParcelAudit = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let config = parameters.$config || {}
   let path = '/get_parcel_audit'
   let body
@@ -122,7 +123,7 @@ postings.ParcelService_GetParcelAudit_TYPE = () => {
 }
 postings.ParcelService_GetParcelAuditURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let path = '/get_parcel_audit'
   if (parameters['id'] !== undefined) {
     queryParameters['id'] = parameters['id']
@@ -136,14 +137,14 @@ postings.ParcelService_GetParcelAuditURL = (parameters = {}) => {
   return domain + path + (keys.length > 0 ? '?' + (keys.map(key => key + '=' + encodeURIComponent(queryParameters[key])).join('&')) : '')
 }
 /**
- * 
+ *
  * request: ParcelService_GetParcels
  * url: ParcelService_GetParcelsURL
  * method: ParcelService_GetParcels_TYPE
  * raw_url: ParcelService_GetParcels_RAW_URL
  */
 postings.ParcelService_GetParcels = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let config = parameters.$config || {}
   let path = '/get_parcels'
   let body
@@ -169,7 +170,7 @@ postings.ParcelService_GetParcels_TYPE = () => {
 }
 postings.ParcelService_GetParcelsURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let path = '/get_parcels'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -180,7 +181,7 @@ postings.ParcelService_GetParcelsURL = (parameters = {}) => {
   return domain + path + (keys.length > 0 ? '?' + (keys.map(key => key + '=' + encodeURIComponent(queryParameters[key])).join('&')) : '')
 }
 /**
- * 
+ *
  * request: ParcelService_SaveParcelSize
  * url: ParcelService_SaveParcelSizeURL
  * method: ParcelService_SaveParcelSize_TYPE
@@ -188,7 +189,7 @@ postings.ParcelService_GetParcelsURL = (parameters = {}) => {
  * @param body - body
  */
 postings.ParcelService_SaveParcelSize = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let config = parameters.$config || {}
   let path = '/save_parcel_size'
   let body
@@ -220,7 +221,7 @@ postings.ParcelService_SaveParcelSize_TYPE = () => {
 }
 postings.ParcelService_SaveParcelSizeURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let path = '/save_parcel_size'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {
@@ -231,7 +232,7 @@ postings.ParcelService_SaveParcelSizeURL = (parameters = {}) => {
   return domain + path + (keys.length > 0 ? '?' + (keys.map(key => key + '=' + encodeURIComponent(queryParameters[key])).join('&')) : '')
 }
 /**
- * 
+ *
  * request: ParcelService_UpdateParcel
  * url: ParcelService_UpdateParcelURL
  * method: ParcelService_UpdateParcel_TYPE
@@ -239,7 +240,7 @@ postings.ParcelService_SaveParcelSizeURL = (parameters = {}) => {
  * @param body - body
  */
 postings.ParcelService_UpdateParcel = (parameters = {}) => {
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let config = parameters.$config || {}
   let path = '/update_parcel'
   let body
@@ -271,7 +272,7 @@ postings.ParcelService_UpdateParcel_TYPE = () => {
 }
 postings.ParcelService_UpdateParcelURL = (parameters = {}) => {
   let queryParameters = {}
-  const domain = parameters.$domain ? parameters.$domain : postings._getDomain()
+  const domain = postings._getDomain()
   let path = '/update_parcel'
   if (parameters.$queryParameters) {
     Object.keys(parameters.$queryParameters).forEach((parameterName) => {

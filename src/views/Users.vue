@@ -148,6 +148,9 @@ export default {
 	padding: 10px;
 }
 .card {
+	min-height: 70vh;
+	display: flex;
+	flex-direction: column;
 	width: 500px;
 	padding: 20px;
 	margin: 0 auto;
@@ -155,5 +158,6 @@ export default {
 .actions {
 	display: flex;
 	justify-content: space-between;
+	margin-top: auto;
 }
 </style>

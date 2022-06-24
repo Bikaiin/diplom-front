@@ -10,6 +10,7 @@
     "axios": "^0.27.2",
     "buefy": "^0.9.21",
     "core-js": "^3.8.3",
+    "nanoid": "^3.3.4",
     "normalize.css": "^8.0.1",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",
