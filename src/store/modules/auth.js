@@ -5,7 +5,11 @@ export const AuthModule = {
 	namespaced: true,
 	state: {
 		token: null,
-		refreshToken: null
+		refreshToken: null,
+		user: {
+			login: null,
+			role: null
+		},
 	},
 	getters: {
 		isAuthorized(state) {
@@ -14,9 +18,13 @@ export const AuthModule = {
 	},
 	mutations: {
 		setTokens(state, payload) {
-			const { token, refreshToken } = payload
+			const { token, refreshToken, login } = payload
 			state.token = token
 			state.refreshToken = refreshToken
+			state.user.login = login
+		},
+		setRole(state, role) {
+			state.user.role = role
 		},
 		logout(state) {
 			state.token = null
@@ -31,7 +39,11 @@ export const AuthModule = {
 				return false
 			}
 
-			commit('setTokens', tokens)
+			commit('setTokens', {
+				token: tokens.token,
+				refreshToken: tokens.refreshToken,
+				login: payload.login
+			})
 			api.setToken(tokens.token)
 
 			await router.push('/')

@@ -4,7 +4,7 @@
 			<h1 class="title">Посылки</h1>
 			<b-button type="is-primary" @click="handleClickAddPosting">Добавить</b-button>
 		</div>
-		<b-table :data="postings" @click="handleClickPosting($event)" hoverable>
+		<b-table :data="postings" hoverable>
 			<b-table-column field="id" label="ID" width="40" v-slot="props">
 				{{ props.row.id }}
 			</b-table-column>
@@ -12,13 +12,19 @@
 				{{ props.row.barcode }}
 			</b-table-column>
 			<b-table-column field="width" label="Ширина" width="100" v-slot="props">
-				{{ props.row.login }}
+				{{ props.row.size.width }}
 			</b-table-column>
-			<b-table-column field="length" label="Высота" width="100" v-slot="props">
-				{{ props.row.login }}
+			<b-table-column field="height" label="Высота" width="100" v-slot="props">
+				{{ props.row.size.height }}
 			</b-table-column>
-			<b-table-column field="length" label="Длина" width="100" v-slot="props">
-				{{ props.row.login }}
+			<b-table-column field="lenght" label="Длина" width="100" v-slot="props">
+				{{ props.row.size.lenght }}
+			</b-table-column>
+			<b-table-column field="edit" label="" width="50" v-slot="props">
+				<b-button type="is-text" @click="handleClickPosting(props.row)">редактировать</b-button>
+			</b-table-column>
+			<b-table-column field="event" label="" width="50" v-slot="props">
+				<b-button type="is-text" @click="handleClickShowEvents">показать события</b-button>
 			</b-table-column>
 		</b-table>
 
@@ -30,14 +36,14 @@
 						<b-field label="Баркод">
 							<b-input v-model="posting.barcode" placeholder="Введите"></b-input>
 						</b-field>
+						<b-field label="Ширина">
+							<b-input v-model="posting.size.width" placeholder="Введите ширину"></b-input>
+						</b-field>
 						<b-field label="Высота">
-							<b-input v-model="posting.height" placeholder="Введите высоту"></b-input>
+							<b-input v-model="posting.size.height" placeholder="Введите высоту"></b-input>
 						</b-field>
 						<b-field label="Длина">
-							<b-input v-model="posting.length" placeholder="Введите длину"></b-input>
-						</b-field>
-						<b-field label="Ширина">
-							<b-input v-model="posting.width" placeholder="Введите ширину"></b-input>
+							<b-input v-model="posting.size.lenght" placeholder="Введите длину"></b-input>
 						</b-field>
 						<div class="actions">
 							<b-button type="is-primary" @click="handleClosePostingForm(props.close)">Отмена</b-button>
@@ -57,6 +63,7 @@ export default {
 	data() {
   		return {
   			posting: null,
+				postingId: null
 		}
 	},
 	async created() {
@@ -71,20 +78,31 @@ export default {
 
 		this.posting = posting || null
 	},
-	components: {},
 	computed: {
-	...mapState('postings', ['postings']),
+		...mapState('postings', ['postings']),
+		...mapState('events', ['eventsByPostingId']),
 		isActiveCard() {
   		return !!this.posting
+		},
+		events() {
+			if (this.postingId) {
+				return []
+			}
+
+			const events = this.eventsByPostingId.find(item => item.id == this.postingId)
+			return events ? events.events : []
 		}
 	},
 	methods: {
+		...mapActions('postings', ['fetch', 'create', 'update']),
 		handleClickAddPosting() {
 			this.posting = {
 				barcode: '',
-				height: '',
-				length: '',
-				width: ''
+				size: {
+					height: '',
+					width: '',
+					lenght: '',
+				}
 			}
 		},
 		handleClickPosting(posting) {
@@ -112,6 +130,9 @@ export default {
 				await this.create(this.posting)
 			}
 			this.handleClosePostingForm(fnClose)
+		},
+		handleClickShowEvents(id) {
+			this.postingId = id
 		}
 	}
 }

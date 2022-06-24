@@ -5,7 +5,6 @@ export const UsersModule = {
 	state: {
 		users: []
 	},
-	getters: {},
 	mutations: {
 		setUsers(state, users) {
 			state.users = users
