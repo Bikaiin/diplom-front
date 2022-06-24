@@ -1,26 +1,31 @@
 <template>
   <div class="users">
-		<div class="actions">
-			<h1 class="title">Пользователи</h1>
-			<b-button type="is-primary" @click="handleClickAddUser">Добавить</b-button>
-		</div>
-		<b-table :data="users" @click="handleClickUser($event)" hoverable>
-			<b-table-column field="id" label="ID" width="40" v-slot="props">
-				{{ props.row.id }}
-			</b-table-column>
-			<b-table-column field="login" label="Логин" width="100" v-slot="props">
-				{{ props.row.login }}
-			</b-table-column>
-			<b-table-column field="roles" label="Роли" width="150" v-slot="props">
-				<b-taglist>
-					<b-tag v-for="role in getRoleById(props.row.roleIds)">{{ role }}</b-tag>
-				</b-taglist>
+		<template v-if="userCups">
+			<div class="cap">Не достаточно прав для страницы "Пользователи"</div>
+		</template>
 
-			</b-table-column>
-		</b-table>
+		<template v-else>
+			<div class="actions">
+				<h1 class="title">Пользователи</h1>
+				<b-button type="is-primary" @click="handleClickAddUser">Добавить</b-button>
+			</div>
+			<b-table :data="users" @click="handleClickUser($event)" hoverable>
+				<b-table-column field="id" label="ID" width="40" v-slot="props">
+					{{ props.row.id }}
+				</b-table-column>
+				<b-table-column field="login" label="Логин" width="100" v-slot="props">
+					{{ props.row.login }}
+				</b-table-column>
+				<b-table-column field="roles" label="Роли" width="150" v-slot="props">
+					<b-taglist>
+						<b-tag v-for="role in getRoleById(props.row.roleIds)">{{ role }}</b-tag>
+					</b-taglist>
 
-		<b-modal v-if="user" :active="isActiveCard" :can-cancel="false">
-			<template #default="props">
+				</b-table-column>
+			</b-table>
+
+			<b-modal v-if="user" :active="isActiveCard" :can-cancel="false">
+				<template #default="props">
 					<div class="card">
 						<h2 v-if="user && user.id" class="subtitle">Редактирование пользователя</h2>
 						<h2 v-else-if="user" class="subtitle">Добавление пользователя</h2>
@@ -47,8 +52,9 @@
 							<b-button type="is-info is-light" @click="handleSaveUser(props.close)">Сохранить</b-button>
 						</div>
 					</div>
-			</template>
-		</b-modal>
+				</template>
+			</b-modal>
+		</template>
   </div>
 </template>
 
@@ -78,6 +84,7 @@ export default {
 	computed: {
   	...mapState('users', ['users']),
   	...mapState('roles', ['roles']),
+		...mapState('cups', ['userCups']),
 		userRoles: {
   		get() {
 				return this.user ? this.roles.filter((option) => {
@@ -146,6 +153,7 @@ export default {
 <style>
 .users {
 	padding: 10px;
+	position: relative;
 }
 .card {
 	min-height: 70vh;
@@ -159,5 +167,18 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	margin-top: auto;
+}
+.cap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+	font-size: xxx-large;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10001;
 }
 </style>

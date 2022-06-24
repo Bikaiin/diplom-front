@@ -6,6 +6,7 @@ import store from '@/store'
 import Login from '../views/Login.vue'
 import Users from '../views/Users.vue'
 import Postings from '../views/Postings.vue'
+import Cups from '../views/Cups.vue'
 
 Vue.use(VueRouter)
 
@@ -39,6 +40,11 @@ const routes = [
     path: '/postings/:postingId',
     name: 'posting',
 	component: Postings
+  },
+  {
+    path: '/cups',
+    name: 'cups',
+	component: Cups
   }
 ]
 
@@ -49,7 +55,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-	if (to.name !== 'login' && !store.getters["auth/isAuthorized"]) next({ name: 'login' })
+	if (to.name !== 'login' && to.name !== 'cups' && !store.getters["auth/isAuthorized"]) next({ name: 'login' })
 	else next()
 })
 
