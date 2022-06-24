@@ -24,7 +24,7 @@
 				<b-button type="is-text" @click="handleClickPosting(props.row)">редактировать</b-button>
 			</b-table-column>
 			<b-table-column field="event" label="" width="50" v-slot="props">
-				<b-button type="is-text" @click="handleClickShowEvents">показать события</b-button>
+				<b-button type="is-text" @click="handleClickShowEvents(props.row.id)">показать события</b-button>
 			</b-table-column>
 		</b-table>
 
@@ -52,6 +52,53 @@
 					</div>
 			</template>
 		</b-modal>
+
+
+		<section>
+			<b-modal
+					v-if="!!postingId"
+					:active="isActiveEvents"
+					has-modal-card
+					full-screen
+					:can-cancel="false"
+			>
+				<div class="modal-card" style="width: auto">
+					<header class="modal-card-head">
+						<p class="modal-card-title">События постинга</p>
+					</header>
+					<section class="modal-card-body">
+						<b-table :data="events" hoverable>
+							<b-table-column field="user" label="Инициатор" width="40" v-slot="tableProps">
+								{{ getUserNameById(tableProps.row.changer) }}
+							</b-table-column>
+							<b-table-column field="date" label="Время" width="40" v-slot="tableProps">
+								{{ tableProps.row.time }}
+							</b-table-column>
+							<b-table-column field="postingId" label="Постинг ID" width="40" v-slot="tableProps">
+								{{ tableProps.row.parcel.id }}
+							</b-table-column>
+							<b-table-column field="barcode" label="Баркод" width="100" v-slot="tableProps">
+								{{ tableProps.row.parcel.barcode }}
+							</b-table-column>
+							<b-table-column field="width" label="Ширина" width="100" v-slot="tableProps">
+								{{ tableProps.row.parcel.size.width }}
+							</b-table-column>
+							<b-table-column field="height" label="Высота" width="100" v-slot="tableProps">
+								{{ tableProps.row.parcel.size.height }}
+							</b-table-column>
+							<b-table-column field="lenght" label="Длина" width="100" v-slot="tableProps">
+								{{ tableProps.row.parcel.size.lenght }}
+							</b-table-column>
+						</b-table>
+					</section>
+					<footer class="modal-card-foot">
+						<b-button
+								label="Close"
+								@click="handleCloseEvents" />
+					</footer>
+				</div>
+			</b-modal>
+		</section>
 	</div>
 </template>
 
@@ -81,11 +128,15 @@ export default {
 	computed: {
 		...mapState('postings', ['postings']),
 		...mapState('events', ['eventsByPostingId']),
+		...mapState('users', ['users']),
 		isActiveCard() {
   		return !!this.posting
 		},
+		isActiveEvents() {
+  		return !!this.postingId
+		},
 		events() {
-			if (this.postingId) {
+			if (!this.postingId) {
 				return []
 			}
 
@@ -95,6 +146,10 @@ export default {
 	},
 	methods: {
 		...mapActions('postings', ['fetch', 'create', 'update']),
+		...mapActions('events', ['fetchByPostingId']),
+		getUserNameById(id) {
+			return this.users.find(user => user.id == id)?.login || 'неизвестный пользователь'
+		},
 		handleClickAddPosting() {
 			this.posting = {
 				barcode: '',
@@ -131,8 +186,12 @@ export default {
 			}
 			this.handleClosePostingForm(fnClose)
 		},
-		handleClickShowEvents(id) {
+		async handleClickShowEvents(id) {
 			this.postingId = id
+			await this.fetchByPostingId(id)
+		},
+		handleCloseEvents() {
+			this.postingId = null
 		}
 	}
 }

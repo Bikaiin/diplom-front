@@ -37,17 +37,17 @@ const fakeData = {
 				parcel: {id: 2, barcode: '%15%2', size: { height: 2.0, width: 1.0, lenght: 3.0 }}
 			},
 			{
-				changer: 1,
+				changer: 2,
 				time: '23.06.2022 01:31:22',
 				parcel: {id: 2, barcode: '%15%2', size: { height: 2.0, width: 1.0, lenght: 3.0 }}
 			},
 			{
-				changer: 1,
+				changer: 2,
 				time: '23.06.2022 12:01:00',
 				parcel: {id: 3, barcode: '%15%3', size: { height: 0.3, width: 0.3, lenght: 1.5 }}
 			},
 			{
-				changer: 1,
+				changer: 2,
 				time: '23.06.2022 13:04:00',
 				parcel: {id: 3, barcode: '%15%3', size: { height: 0.3, width: 0.3, lenght: 1.5 }}
 			}
