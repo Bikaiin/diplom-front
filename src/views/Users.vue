@@ -99,6 +99,11 @@ export default {
   		return !!this.user
 		}
 	},
+	watch: {
+  	roles() {
+			this.filteredTags = this.roles
+		}
+	},
 	methods: {
 		...mapActions('users', ['fetch', 'create', 'update']),
 		...mapActions('roles', { fetchRoles: 'fetch' }),
