@@ -30,15 +30,11 @@ export const AuthModule = {
 			if (roles) state.user.roles = roles
 		},
 		logout(state) {
-			state = {
-				token: null,
-				refreshToken: null,
-				user: {
-					id: null,
-					login: null,
-					roles: null
-				},
-			}
+			state.token = null
+			state.refreshToken = null
+			state.user.id = null
+			state.user.login = null
+			state.user.roles = null
 		}
 	},
 	actions: {
