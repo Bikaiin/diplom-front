@@ -1,6 +1,6 @@
 <template>
 	<div class="postings">
-		<template v-if="postingCups">
+		<template v-if="postingCups || isBlockedPostingsPage">
 			<div class="cap">Не достаточно прав для страницы "Постинги"</div>
 		</template>
 
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default {
 	name: 'Postings',
@@ -146,6 +146,7 @@ export default {
 		...mapState('events', ['eventsByPostingId']),
 		...mapState('users', ['users']),
 		...mapState('cups', ['postingCups']),
+		...mapGetters('auth', ['isBlockedPostingsPage']),
 		isActiveCard() {
   		return !!this.posting
 		},
@@ -230,5 +231,19 @@ export default {
 	width: 500px;
 	padding: 20px;
 	margin: 0 auto;
+}
+.cap {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	font-weight: bold;
+	font-size: xxx-large;
+	width: 100vw;
+	height: 100vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 10001;
 }
 </style>

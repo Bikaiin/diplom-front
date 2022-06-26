@@ -1,6 +1,6 @@
 <template>
   <div class="users">
-		<template v-if="userCups">
+		<template v-if="userCups || isBlockedUsersPage">
 			<div class="cap">Не достаточно прав для страницы "Пользователи"</div>
 		</template>
 
@@ -58,7 +58,8 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import {mapState, mapActions, mapGetters} from 'vuex'
+
 export default {
   name: 'Users',
 	data() {
@@ -72,6 +73,8 @@ export default {
 	async created() {
 		await this.fetch()
 		await this.fetchRoles()
+		this.refreshUserDate()
+
 
   	if (!this.$route.params.userId) {
 			return
@@ -95,6 +98,7 @@ export default {
   	...mapState('users', ['users']),
   	...mapState('roles', ['roles']),
 		...mapState('cups', ['userCups']),
+		...mapGetters('auth', ['isBlockedUsersPage']),
 		userRoles: {
   		get() {
 				return this.user ? this.roles.filter((option) => {
@@ -117,6 +121,7 @@ export default {
 	methods: {
 		...mapActions('users', ['fetch', 'create', 'update']),
 		...mapActions('roles', { fetchRoles: 'fetch' }),
+		...mapActions('auth', ['refreshUserDate']),
 		getRoleById(ids) {
 			return this.roles.filter(role => ids.includes(role.id.toString())).map(role => role.name)
 		},
@@ -193,7 +198,7 @@ export default {
 .cap {
 	display: flex;
 	align-items: center;
-	justify-content: center;
+	text-align: center;
 	font-weight: bold;
 	font-size: xxx-large;
 	width: 100vw;

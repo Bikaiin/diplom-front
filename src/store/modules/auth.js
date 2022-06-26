@@ -1,6 +1,9 @@
 import api from '@/services'
 import router from '@/router'
 
+const rolesForBlockUsersPage = ['2', '3']
+const rolesForBlockPostingsPage = ['3']
+
 export const AuthModule = {
 	namespaced: true,
 	state: {
@@ -15,6 +18,12 @@ export const AuthModule = {
 	getters: {
 		isAuthorized(state) {
 			return Boolean(state.token && state.refreshToken)
+		},
+		isBlockedUsersPage(state) {
+			return Boolean(state.user.roles?.length && rolesForBlockUsersPage.some(role => state.user.roles.includes(role)))
+		},
+		isBlockedPostingsPage(state) {
+			return Boolean(state.user.roles?.length && rolesForBlockPostingsPage.some(role => state.user.roles.includes(role)))
 		}
 	},
 	mutations: {
@@ -100,6 +109,21 @@ export const AuthModule = {
 				refreshToken
 			})
 			api.setToken(token)
+		},
+		refreshUserDate({ commit, rootState }) {
+			const userData = rootState.auth.user || null
+			const user = userData ? rootState.users.users.find(user => {
+				return user.id == userData.id || user.login == userData.login
+			}) : null
+
+			if (user) {
+				console.log(user)
+				commit('setUser', {
+					id: user.id,
+					login: user.login,
+					roles: user.roleIds
+				})
+			}
 		}
 	}
 }
