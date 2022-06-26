@@ -149,6 +149,7 @@ export default {
 		handleCloseUserForm(fnClose) {
 			fnClose()
   		this.user = null
+			this.newPassword = ''
 			this.$router.replace({
 				name: 'users'
 			})
