@@ -20,7 +20,6 @@
 					<b-taglist>
 						<b-tag v-for="role in getRoleById(props.row.roleIds)">{{ role }}</b-tag>
 					</b-taglist>
-
 				</b-table-column>
 			</b-table>
 

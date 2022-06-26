@@ -30,7 +30,7 @@ export default class PostingsApi {
 	}) {
 		const isOk = await errorHandler(this.api.ParcelService_CreateParcelSize,
 			{
-				body: { parcel: { size, barcode } }
+				body: {size, barcode}
 			},
 			[],
 			'Не удалось добавить постинг!')
