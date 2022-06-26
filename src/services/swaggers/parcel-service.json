@@ -185,8 +185,11 @@
     "parcel_apiCreateParcelRequest": {
       "type": "object",
       "properties": {
-        "parcel": {
-          "$ref": "#/definitions/parcel_apiParcel"
+        "size": {
+          "$ref": "#/definitions/parcel_apiSizes"
+        },
+        "barcode": {
+          "type": "string"
         }
       }
     },
@@ -224,6 +227,9 @@
         },
         "size": {
           "$ref": "#/definitions/parcel_apiSizes"
+        },
+        "barcode": {
+          "type": "string"
         }
       }
     },
@@ -253,7 +259,7 @@
           "type": "number",
           "format": "float"
         },
-        "lenght": {
+        "length": {
           "type": "number",
           "format": "float"
         }
@@ -268,6 +274,9 @@
         },
         "size": {
           "$ref": "#/definitions/parcel_apiSizes"
+        },
+        "barcode": {
+          "type": "string"
         }
       }
     },

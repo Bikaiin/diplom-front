@@ -220,12 +220,24 @@
     }
   },
   "definitions": {
+    "GetRolesResponceRole": {
+      "type": "object",
+      "properties": {
+        "roleId": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "GetUsersResponceUser": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int32"
+          "type": "string",
+          "format": "int64"
         },
         "login": {
           "type": "string"
@@ -236,8 +248,8 @@
         "roleIds": {
           "type": "array",
           "items": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "int64"
           }
         }
       }
@@ -265,7 +277,20 @@
       }
     },
     "auth_apiCheckResponce": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "userRolesIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        }
+      }
     },
     "auth_apiCreateRequest": {
       "type": "object",
@@ -279,24 +304,29 @@
         "roleIds": {
           "type": "array",
           "items": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "int64"
           }
         }
       }
     },
     "auth_apiCreateResponce": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
     },
     "auth_apiGetRolesResponce": {
       "type": "object",
       "properties": {
-        "roleId": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
+        "roles": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/GetRolesResponceRole"
+          }
         }
       }
     },
@@ -323,8 +353,11 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "integer",
-          "format": "int32"
+          "type": "string",
+          "format": "int64"
+        },
+        "login": {
+          "type": "string"
         },
         "password": {
           "type": "string"
@@ -332,8 +365,8 @@
         "roleIds": {
           "type": "array",
           "items": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "int64"
           }
         }
       }

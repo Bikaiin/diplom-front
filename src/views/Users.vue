@@ -33,7 +33,7 @@
 							<b-input v-model="user.login" placeholder="Введите логин"></b-input>
 						</b-field>
 						<b-field label="Пароль">
-							<b-input v-model="user.password" placeholder="Введите пароль"></b-input>
+							<b-input v-model="newPassword" placeholder="Введите новый пароль"></b-input>
 						</b-field>
 						<b-field label="Роли">
 							<b-taginput
@@ -65,7 +65,9 @@ export default {
 	data() {
   	return {
   		user: null,
-			filteredTags: [ ...(this.roles || []) ]
+			newPassword: '',
+			filteredTags: [ ...(this.roles || []) ],
+			refresher: null
 		}
 	},
 	async created() {
@@ -81,6 +83,15 @@ export default {
 
 		this.user = user || null
 	},
+	mounted() {
+  	this.refresher = setInterval(() => {
+  		this.fetch()
+		}, 5000)
+	},
+	beforeDestroy() {
+  	clearInterval(this.refresher)
+		this.refresher = null
+	},
 	computed: {
   	...mapState('users', ['users']),
   	...mapState('roles', ['roles']),
@@ -88,11 +99,11 @@ export default {
 		userRoles: {
   		get() {
 				return this.user ? this.roles.filter((option) => {
-					return this.user.roleIds.includes(option.id)
+					return this.user.roleIds.includes(option.id.toString())
 				}) : []
 			},
   		set(options) {
-				this.user.roleIds = options.map(option => option.id)
+				this.user.roleIds = options.map(option => option.id.toString())
 			}
 		},
 		isActiveCard() {
@@ -108,7 +119,7 @@ export default {
 		...mapActions('users', ['fetch', 'create', 'update']),
 		...mapActions('roles', { fetchRoles: 'fetch' }),
 		getRoleById(ids) {
-			return this.roles.filter(role => ids.includes(role.id)).map(role => role.name)
+			return this.roles.filter(role => ids.includes(role.id.toString())).map(role => role.name)
 		},
 		getFilteredTags(text) {
 			this.filteredTags = this.roles.filter((option) => {
@@ -145,9 +156,15 @@ export default {
 		},
 		async handleSaveUser(fnClose) {
 			if (this.user.id) {
-				await this.update(this.user)
+				await this.update({
+					...this.user,
+					password: this.newPassword || null
+				})
 			} else {
-				await this.create(this.user)
+				await this.create({
+					...this.user,
+					password: this.newPassword || null
+				})
 			}
 			this.handleCloseUserForm(fnClose)
 		}

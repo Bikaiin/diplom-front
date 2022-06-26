@@ -14,7 +14,7 @@
 					{{ props.row.id }}
 				</b-table-column>
 				<b-table-column field="barcode" label="Баркод" width="100" v-slot="props">
-					{{ props.row.barcode }}
+					{{ props.row.barcode || '-' }}
 				</b-table-column>
 				<b-table-column field="width" label="Ширина" width="100" v-slot="props">
 					{{ props.row.size.width }}
@@ -22,8 +22,8 @@
 				<b-table-column field="height" label="Высота" width="100" v-slot="props">
 					{{ props.row.size.height }}
 				</b-table-column>
-				<b-table-column field="lenght" label="Длина" width="100" v-slot="props">
-					{{ props.row.size.lenght }}
+				<b-table-column field="length" label="Длина" width="100" v-slot="props">
+					{{ props.row.size.length }}
 				</b-table-column>
 				<b-table-column field="edit" label="" width="50" v-slot="props">
 					<b-button type="is-text" @click="handleClickPosting(props.row)">редактировать</b-button>
@@ -48,7 +48,7 @@
 							<b-input v-model="posting.size.height" placeholder="Введите высоту"></b-input>
 						</b-field>
 						<b-field label="Длина">
-							<b-input v-model="posting.size.lenght" placeholder="Введите длину"></b-input>
+							<b-input v-model="posting.size.length" placeholder="Введите длину"></b-input>
 						</b-field>
 						<div class="actions">
 							<b-button type="is-primary" @click="handleClosePostingForm(props.close)">Отмена</b-button>
@@ -74,7 +74,7 @@
 						<section class="modal-card-body">
 							<b-table :data="events" hoverable>
 								<b-table-column field="user" label="Инициатор" width="40" v-slot="tableProps">
-									{{ getUserNameById(tableProps.row.changer) }}
+									{{ tableProps.row.changer }}
 								</b-table-column>
 								<b-table-column field="date" label="Время" width="40" v-slot="tableProps">
 									{{ tableProps.row.time }}
@@ -83,7 +83,7 @@
 									{{ tableProps.row.parcel.id }}
 								</b-table-column>
 								<b-table-column field="barcode" label="Баркод" width="100" v-slot="tableProps">
-									{{ tableProps.row.parcel.barcode }}
+									{{ tableProps.row.parcel.barcode || '' }}
 								</b-table-column>
 								<b-table-column field="width" label="Ширина" width="100" v-slot="tableProps">
 									{{ tableProps.row.parcel.size.width }}
@@ -91,14 +91,14 @@
 								<b-table-column field="height" label="Высота" width="100" v-slot="tableProps">
 									{{ tableProps.row.parcel.size.height }}
 								</b-table-column>
-								<b-table-column field="lenght" label="Длина" width="100" v-slot="tableProps">
-									{{ tableProps.row.parcel.size.lenght }}
+								<b-table-column field="length" label="Длина" width="100" v-slot="tableProps">
+									{{ tableProps.row.parcel.size.length }}
 								</b-table-column>
 							</b-table>
 						</section>
 						<footer class="modal-card-foot">
 							<b-button
-									label="Close"
+									label="Закрыть"
 									@click="handleCloseEvents" />
 						</footer>
 					</div>
@@ -116,7 +116,8 @@ export default {
 	data() {
   		return {
   			posting: null,
-				postingId: null
+				postingId: null,
+				refresher: null,
 		}
 	},
 	async created() {
@@ -130,6 +131,15 @@ export default {
 		const posting = this.postings.find(posting => posting.id === postingId)
 
 		this.posting = posting || null
+	},
+	mounted() {
+		this.refresher = setInterval(() => {
+			this.fetch()
+		}, 5000)
+	},
+	beforeDestroy() {
+		clearInterval(this.refresher)
+		this.refresher = null
 	},
 	computed: {
 		...mapState('postings', ['postings']),
@@ -163,7 +173,7 @@ export default {
 				size: {
 					height: '',
 					width: '',
-					lenght: '',
+					length: '',
 				}
 			}
 		},

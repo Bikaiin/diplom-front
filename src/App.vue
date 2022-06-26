@@ -10,7 +10,8 @@
 					v-for="notification in notifications"
 					type="is-danger is-light"
 					aria-close-label="Close notification"
-					role="alert">
+					role="alert"
+					@close="handleRemoveNotification(notification.id)">
 				{{notification.message}}
 			</b-notification>
 		</section>
@@ -19,19 +20,32 @@
 
 <script>
 import TopBar from './components/common/TopBar'
-import { mapState } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 
 export default {
 	components: {
 		TopBar,
 	},
+	created() {
+		if (this.isAuthorized) {
+			this.checkToken()
+		}
+	},
 	computed: {
 		...mapState('notifications', ['notifications']),
+		...mapGetters('auth', ['isAuthorized']),
 		isLogin() {
 			return this.currentPage === 'login'
 		},
 		currentPage() {
 			return this.$route.name
+		}
+	},
+	methods: {
+		...mapActions('auth', ['checkToken']),
+		...mapActions('notifications', ['removeNotification']),
+		async handleRemoveNotification(id) {
+			await this.removeNotification(id)
 		}
 	}
 }

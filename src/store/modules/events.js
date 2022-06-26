@@ -16,7 +16,7 @@ export const EventsModule = {
 			if (isUserEvents) {
 				const has = state.eventsByUserId.some(item => item.id === id)
 				if (has) {
-					state.eventsByUserId.map(item => {
+					state.eventsByUserId = state.eventsByUserId.map(item => {
 						return item.id === id ? {id, events} : item
 					})
 				} else {
@@ -26,10 +26,10 @@ export const EventsModule = {
 					]
 				}
 			} else {
-				const has = state.eventsByPostingId.some(item => item.id === id)
+				const has = state.eventsByPostingId.some(item => item.id == id)
 				if (has) {
-					state.eventsByPostingId.map(item => {
-						return item.id === id ? {id, events} : item
+					state.eventsByPostingId = state.eventsByPostingId.map(item => {
+						return item.id == id ? { id, events } : item
 					})
 				} else {
 					state.eventsByPostingId = [

@@ -7,8 +7,9 @@ export const AuthModule = {
 		token: null,
 		refreshToken: null,
 		user: {
+			id: null,
 			login: null,
-			role: null
+			roles: null
 		},
 	},
 	getters: {
@@ -18,33 +19,45 @@ export const AuthModule = {
 	},
 	mutations: {
 		setTokens(state, payload) {
-			const { token, refreshToken, login } = payload
+			const { token, refreshToken } = payload
 			state.token = token
 			state.refreshToken = refreshToken
-			state.user.login = login
 		},
-		setRole(state, role) {
-			state.user.role = role
+		setUser(state, payload) {
+			const { id, login, roles } = payload
+			if (login) state.user.login = login
+			if (id) state.user.id = id
+			if (roles) state.user.roles = roles
 		},
 		logout(state) {
-			state.token = null
-			state.refreshToken = null
+			state = {
+				token: null,
+				refreshToken: null,
+				user: {
+					id: null,
+					login: null,
+					roles: null
+				},
+			}
 		}
 	},
 	actions: {
 		async login({ commit }, payload) {
-			const tokens = await api.users.createToken(payload)
+			const {
+				token,
+				refresh_token: refreshToken
+			} = await api.users.createToken(payload)
 
-			if (!tokens.token || !tokens.refreshToken) {
+			if (!token || !refreshToken) {
 				return false
 			}
 
 			commit('setTokens', {
-				token: tokens.token,
-				refreshToken: tokens.refreshToken,
-				login: payload.login
+				token,
+				refreshToken
 			})
-			api.setToken(tokens.token)
+			commit('setUser', {login: payload.login})
+			api.setToken(token)
 
 			await router.push('/')
 		},
@@ -53,25 +66,44 @@ export const AuthModule = {
 
 			await router.push('/login')
 		},
-		async checkToken({ commit, state }) {
+		async checkToken({ commit, dispatch, state }) {
 			if (!state.token) {
 				return
 			}
 
-			await api.users.checkToken(state.token)
+			const {
+				user_id: id,
+				user_roles_ids: roles
+			} = await api.users.checkToken(state.token)
+
+			if (!id || !roles) {
+				dispatch('logout')
+			} else {
+				commit('setUser', { id, roles })
+				if (router.currentRoute.name === 'login') {
+					await router.push('/')
+				}
+			}
 		},
 		async refreshToken({ commit, state }) {
 			if (!state.refreshToken) {
 				return
 			}
 
-			const tokens = await api.users.refreshToken(state.refreshToken)
+			const {
+				token,
+				refresh_token: refreshToken
+			} = await api.users.refreshToken(state.refreshToken)
 
-			if (!tokens.token || !tokens.refreshToken) {
+			if (!token || !refreshToken) {
 				return false
 			}
 
-			commit('setTokens', tokens)
+			commit('setTokens', {
+				token,
+				refreshToken
+			})
+			api.setToken(token)
 		}
 	}
 }

@@ -1,9 +1,8 @@
 import axios from 'axios'
 import store from '@/store'
-import router from '@/router'
 
-import usersApi from './swagger/users'
-import postingsApi from './swagger/users'
+import usersApi from './swaggers/users-module'
+import postingsApi from './swaggers/postings-module'
 import Users from './users'
 import Postings from './postings'
 
@@ -24,7 +23,7 @@ axios.interceptors.response.use((response) => response,
 				}
 				return Promise.reject(error)
 			} catch (error) {
-				await router.push({name: 'login'})
+				await store.dispatch('auth/logout')
 				return Promise.reject(error)
 			}
 		}

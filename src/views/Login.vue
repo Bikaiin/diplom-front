@@ -58,9 +58,9 @@ export default {
 	},
 	methods: {
 		...mapActions('auth', { fnLogin: 'login' }),
-		handleClickLogin() {
+		async handleClickLogin() {
 			if (this.login && this.password) {
-				this.fnLogin({
+				await this.fnLogin({
 					login: this.login,
 					password: this.password
 				})
