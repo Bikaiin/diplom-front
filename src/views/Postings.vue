@@ -77,7 +77,7 @@
 									{{ tableProps.row.changer }}
 								</b-table-column>
 								<b-table-column field="date" label="Время" width="40" v-slot="tableProps">
-									{{ tableProps.row.time }}
+									{{ getTime(tableProps.row.time) }}
 								</b-table-column>
 								<b-table-column field="postingId" label="Постинг ID" width="40" v-slot="tableProps">
 									{{ tableProps.row.parcel.id }}
@@ -209,6 +209,9 @@ export default {
 		},
 		handleCloseEvents() {
 			this.postingId = null
+		},
+		getTime(rawTime) {
+			return rawTime.replace('T', ' ').replace(/\.[0-9]*Z$/, '')
 		}
 	}
 }
